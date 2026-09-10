@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Header, HTTPException, Query, Response, status
+from fastapi import FastAPI, Header, HTTPException, Query, Request, Response, status
 
 from app.integrations.directory import DirectoryPage, DirectoryUser
 from app.integrations.github import CreateGitHubIssue, GitHubIssue
@@ -44,14 +44,16 @@ async def create_issue(
 async def list_issues(
     owner: str,
     repository: str,
+    request: Request,
     response: Response,
     page: int = Query(default=1, ge=1, le=2),
     authorization: str | None = Header(default=None),
 ) -> list[GitHubIssue]:
     _require_bearer(authorization)
     if page == 1:
+        origin = str(request.base_url).rstrip("/")
         response.headers["Link"] = (
-            f'<http://mock-provider:9000/github/repos/{owner}/{repository}'
+            f'<{origin}/github/repos/{owner}/{repository}'
             '/issues?per_page=2&page=2>; rel="next"'
         )
     return [
