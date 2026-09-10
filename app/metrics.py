@@ -6,6 +6,7 @@ ProviderName = Literal["directory", "github", "notification", "oauth"]
 OperationName = Literal[
     "create_issue",
     "get_user",
+    "list_issues",
     "list_users",
     "send_notification",
     "token",

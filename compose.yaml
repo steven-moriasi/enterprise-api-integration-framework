@@ -1,0 +1,49 @@
+services:
+  integration-framework:
+    build:
+      context: .
+    environment:
+      INTEGRATION_FRAMEWORK_DIRECTORY_API_KEY: local-development-key
+      INTEGRATION_FRAMEWORK_DIRECTORY_BASE_URL: http://mock-provider:9000/directory
+      INTEGRATION_FRAMEWORK_ENVIRONMENT: development
+      INTEGRATION_FRAMEWORK_GITHUB_BASE_URL: http://mock-provider:9000/github
+      INTEGRATION_FRAMEWORK_GITHUB_TOKEN: local-development-token
+      INTEGRATION_FRAMEWORK_NOTIFICATION_BASE_URL: http://mock-provider:9000/notifications
+      INTEGRATION_FRAMEWORK_NOTIFICATION_BEARER_TOKEN: local-development-token
+      INTEGRATION_FRAMEWORK_WEBHOOK_SECRET: local-development-webhook-secret
+    ports:
+      - "8003:8003"
+    depends_on:
+      mock-provider:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8003/health', timeout=2)
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  mock-provider:
+    build:
+      context: .
+    command:
+      - uvicorn
+      - app.mock_provider:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "9000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:9000/health', timeout=2)
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s

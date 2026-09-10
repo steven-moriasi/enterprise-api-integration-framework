@@ -52,7 +52,7 @@ class IntegrationClient:
         self._auth = auth
         self._breaker = circuit_breaker or CircuitBreaker()
         self._client = httpx.AsyncClient(
-            base_url=base_url,
+            base_url=f"{base_url.rstrip('/')}/",
             timeout=operation_timeout,
             transport=transport,
         )
