@@ -31,7 +31,8 @@ an unsafe universal abstraction.
 5. The authentication strategy supplies headers without exposing secrets to logs.
 6. The client adds a correlation ID and optional idempotency key.
 7. HTTPX applies connect, pool, read, write, and total operation timeouts.
-8. Retryable transport failures, `429`, and selected `5xx` responses use bounded backoff.
+8. Operations that explicitly permit retries use bounded backoff for retryable transport failures,
+   `429`, and selected `5xx` responses.
 9. Successful JSON is validated against the provider contract.
 10. The adapter returns domain data; failures return a structured safe error.
 

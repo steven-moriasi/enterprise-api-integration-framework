@@ -64,6 +64,7 @@ class GitHubAdapter:
         issues: list[GitHubIssue] = []
         for _ in range(max_pages):
             result = await self._client.request(
+                allow_retries=True,
                 method="GET",
                 operation="list_issues",
                 path=path,

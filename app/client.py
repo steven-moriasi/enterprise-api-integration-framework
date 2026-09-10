@@ -84,6 +84,7 @@ class IntegrationClient:
         operation: OperationName,
         path: str,
         response_model: type[ResponseModel],
+        allow_retries: bool = False,
         correlation_id: str | None = None,
         idempotency_key: str | None = None,
         json_body: object | None = None,
@@ -94,6 +95,7 @@ class IntegrationClient:
 
         try:
             result = await self._request_with_retries(
+                allow_retries=allow_retries,
                 correlation_id=request_correlation_id,
                 idempotency_key=idempotency_key,
                 json_body=json_body,
@@ -126,6 +128,7 @@ class IntegrationClient:
     async def _request_with_retries(
         self,
         *,
+        allow_retries: bool,
         correlation_id: str,
         idempotency_key: str | None,
         json_body: object | None,
@@ -157,7 +160,10 @@ class IntegrationClient:
                         retryable=True,
                     ),
                 )
-                if attempt == self._retry_policy.max_attempts:
+                if (
+                    not allow_retries
+                    or attempt == self._retry_policy.max_attempts
+                ):
                     raise timeout_error from cause
                 await self._wait(attempt)
                 continue
@@ -171,7 +177,10 @@ class IntegrationClient:
                         retryable=True,
                     ),
                 )
-                if attempt == self._retry_policy.max_attempts:
+                if (
+                    not allow_retries
+                    or attempt == self._retry_policy.max_attempts
+                ):
                     raise unavailable_error from cause
                 await self._wait(attempt)
                 continue
@@ -188,6 +197,7 @@ class IntegrationClient:
 
             if (
                 not response_error.context.retryable
+                or not allow_retries
                 or attempt == self._retry_policy.max_attempts
             ):
                 raise response_error

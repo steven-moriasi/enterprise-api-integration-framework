@@ -27,6 +27,7 @@ class NotificationAdapter:
         idempotency_key: str,
     ) -> NotificationReceipt:
         result = await self._client.request(
+            allow_retries=True,
             idempotency_key=idempotency_key,
             json_body=notification.model_dump(),
             method="POST",

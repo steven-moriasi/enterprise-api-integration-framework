@@ -16,14 +16,11 @@
 
 ## Retry safety
 
-Retries are safe only when the provider operation is idempotent or carries a provider-supported
-idempotency key. The notification adapter sends an idempotency key. The issue adapter does not
-silently claim GitHub-compatible idempotency; callers should not configure automatic retries for a
-non-idempotent provider operation without an operation-specific strategy.
-
-The sample transport currently retries based on status classification for every operation. A
-production extension should make retry permission explicit per operation and default writes to no
-retry unless protected by provider idempotency.
+Retries are opt-in per operation and are safe only when the provider operation is idempotent or
+carries a provider-supported idempotency key. Directory and issue reads permit retries. The
+notification adapter permits retries because it supplies an idempotency key. Issue creation uses
+the safe default of one attempt because the sample contract does not claim provider-supported
+idempotency.
 
 ## Error hygiene
 

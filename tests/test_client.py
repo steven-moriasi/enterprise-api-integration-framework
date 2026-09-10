@@ -83,6 +83,7 @@ def test_client_retries_transient_status_and_honors_final_contract() -> None:
     async def exercise() -> None:
         async with client_for(httpx.MockTransport(handler)) as client:
             result = await client.request(
+                allow_retries=True,
                 method="GET",
                 operation="list_issues",
                 path="resource",
@@ -104,6 +105,7 @@ def test_client_exposes_safe_authentication_and_response_errors() -> None:
         async with client_for(httpx.MockTransport(handler), attempts=1) as client:
             with pytest.raises(UpstreamAuthenticationError) as authentication:
                 await client.request(
+                    allow_retries=True,
                     method="GET",
                     operation="list_issues",
                     path="resource",
@@ -158,6 +160,7 @@ def test_client_opens_circuit_after_repeated_failures() -> None:
         ) as client:
             with pytest.raises(CircuitOpenError):
                 await client.request(
+                    allow_retries=True,
                     method="GET",
                     operation="list_issues",
                     path="resource",
@@ -166,3 +169,26 @@ def test_client_opens_circuit_after_repeated_failures() -> None:
 
     asyncio.run(exercise())
     assert calls == 2
+
+
+def test_client_does_not_retry_without_operation_permission() -> None:
+    calls = 0
+
+    def handler(_: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(503)
+
+    async def exercise() -> None:
+        async with client_for(httpx.MockTransport(handler)) as client:
+            with pytest.raises(UpstreamResponseError) as response:
+                await client.request(
+                    method="POST",
+                    operation="create_issue",
+                    path="resource",
+                    response_model=Payload,
+                )
+        assert response.value.context.retryable is True
+
+    asyncio.run(exercise())
+    assert calls == 1

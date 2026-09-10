@@ -11,7 +11,8 @@
 
 ## What prevents a production-ready rating
 
-- write retries are not yet opt-in per operation;
+- operation retry permission is explicit, but richer provider-specific idempotency policies are
+  still needed;
 - no inbound gateway identity or authorization;
 - no distributed circuit, rate-limit, token-cache, or replay state;
 - no durable audit event store;

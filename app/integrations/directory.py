@@ -25,6 +25,7 @@ class DirectoryAdapter:
 
     async def get_user(self, user_id: str) -> DirectoryUser:
         result = await self._client.request(
+            allow_retries=True,
             method="GET",
             operation="get_user",
             path=f"users/{user_id}",
@@ -40,6 +41,7 @@ class DirectoryAdapter:
         users: list[DirectoryUser] = []
         for _ in range(max_pages):
             result = await self._client.request(
+                allow_retries=True,
                 method="GET",
                 operation="list_users",
                 params={"page": page, "per_page": 2},

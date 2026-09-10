@@ -4,7 +4,7 @@
 |---|---|---|
 | typed clients | provider Pydantic models and adapters | provider contract tests |
 | authentication | API key, bearer, OAuth client credentials | auth tests |
-| retries and timeouts | shared transport policy | transient failure tests |
+| retries and timeouts | opt-in shared transport policy | transient and write-safety tests |
 | circuit breaking | closed/open/half-open state machine | recovery and probe tests |
 | rate limiting | async token bucket | deterministic refill test |
 | structured errors | integration error hierarchy | body-leak and status tests |
