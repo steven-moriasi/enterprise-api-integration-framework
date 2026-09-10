@@ -45,7 +45,7 @@ def test_directory_contract_and_page_number_pagination() -> None:
             await adapter.close()
 
         assert [entry.id for entry in users] == ["user-1", "user-2", "user-3"]
-        assert user.display_name == "Amina Yusuf"
+        assert user.display_name == "Sample User One"
 
     asyncio.run(exercise())
 

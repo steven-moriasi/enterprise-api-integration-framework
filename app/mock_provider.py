@@ -4,12 +4,24 @@ from app.integrations.directory import DirectoryPage, DirectoryUser
 from app.integrations.github import CreateGitHubIssue, GitHubIssue
 from app.integrations.notification import NotificationReceipt, NotificationRequest
 
-app = FastAPI(title="Local integration contract provider")
+app = FastAPI(title="Synthetic local integration contract provider")
 
-USERS = [
-    DirectoryUser(id="user-1", display_name="Amina Yusuf", email="amina@example.test"),
-    DirectoryUser(id="user-2", display_name="Daniel Kim", email="daniel@example.test"),
-    DirectoryUser(id="user-3", display_name="Priya Shah", email="priya@example.test"),
+SYNTHETIC_USERS = [
+    DirectoryUser(
+        id="user-1",
+        display_name="Sample User One",
+        email="user1@example.test",
+    ),
+    DirectoryUser(
+        id="user-2",
+        display_name="Sample User Two",
+        email="user2@example.test",
+    ),
+    DirectoryUser(
+        id="user-3",
+        display_name="Sample User Three",
+        email="user3@example.test",
+    ),
 ]
 
 
@@ -77,11 +89,11 @@ async def list_users(
     if x_api_key != "local-development-key":
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     start = (page - 1) * per_page
-    total_pages = max(1, (len(USERS) + per_page - 1) // per_page)
+    total_pages = max(1, (len(SYNTHETIC_USERS) + per_page - 1) // per_page)
     return DirectoryPage(
         page=page,
         total_pages=total_pages,
-        users=USERS[start : start + per_page],
+        users=SYNTHETIC_USERS[start : start + per_page],
     )
 
 
@@ -92,7 +104,7 @@ async def get_user(
 ) -> DirectoryUser:
     if x_api_key != "local-development-key":
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    for user in USERS:
+    for user in SYNTHETIC_USERS:
         if user.id == user_id:
             return user
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)

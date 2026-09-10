@@ -12,7 +12,7 @@ services:
       INTEGRATION_FRAMEWORK_NOTIFICATION_BEARER_TOKEN: local-development-token
       INTEGRATION_FRAMEWORK_WEBHOOK_SECRET: local-development-webhook-secret
     ports:
-      - "8003:8003"
+      - "127.0.0.1:8003:8003"
     depends_on:
       mock-provider:
         condition: service_healthy
