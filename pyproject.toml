@@ -13,7 +13,7 @@ authors = [{ name = "Steven Ongati", email = "ongatisteven@gmail.com" }]
 dependencies = [
   "fastapi==0.141.1",
   "httpx==0.28.1",
-  "prometheus-client==0.22.1",
+  "prometheus-client==0.26.0",
   "pydantic-settings==2.9.1",
   "starlette==1.6.0",
   "structlog==25.4.0",
