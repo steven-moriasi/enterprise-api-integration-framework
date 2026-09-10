@@ -95,7 +95,11 @@ class CircuitBreaker:
                 return
 
             if self._state is CircuitState.OPEN:
-                opened_at = self._opened_at or self.clock()
+                opened_at = (
+                    self._opened_at
+                    if self._opened_at is not None
+                    else self.clock()
+                )
                 if self.clock() - opened_at >= self.recovery_timeout_seconds:
                     self._state = CircuitState.HALF_OPEN
                 else:
