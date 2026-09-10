@@ -11,10 +11,11 @@ requires-python = ">=3.11,<3.14"
 license = { text = "MIT" }
 authors = [{ name = "Steven Ongati", email = "ongatisteven@gmail.com" }]
 dependencies = [
-  "fastapi==0.115.12",
+  "fastapi==0.141.1",
   "httpx==0.28.1",
   "prometheus-client==0.22.1",
   "pydantic-settings==2.9.1",
+  "starlette==1.6.0",
   "structlog==25.4.0",
   "uvicorn[standard]==0.34.3",
 ]
@@ -22,7 +23,8 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "mypy==1.16.0",
-  "pytest==8.4.0",
+  "pip-audit==2.9.0",
+  "pytest==9.1.1",
   "pytest-cov==6.1.1",
   "ruff==0.11.13",
 ]
@@ -46,6 +48,7 @@ target-version = "py311"
 select = ["E", "F", "I", "B", "UP", "RUF", "ASYNC", "S"]
 
 [tool.ruff.lint.per-file-ignores]
+"scripts/**/*.py" = ["S101"]
 "tests/**/*.py" = ["S101", "S105", "S106"]
 
 [tool.mypy]
