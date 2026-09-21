@@ -7,7 +7,7 @@ name = "enterprise-api-integration-framework"
 version = "0.1.0"
 description = "Reference implementation for resilient typed third-party API integrations"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 license = { text = "MIT" }
 authors = [{ name = "Steven Ongati", email = "ongatisteven@gmail.com" }]
 dependencies = [
