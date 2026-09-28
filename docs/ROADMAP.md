@@ -19,7 +19,8 @@
 - add OIDC inbound authentication and scoped authorization;
 - enforce provider host allow-lists at network and application layers;
 - integrate workload identity and automated secret rotation;
-- add payload classification and provider-specific redaction.
+- add payload classification and provider-specific redaction;
+- add durable audit-event storage with governed retention.
 
 ## Assurance
 

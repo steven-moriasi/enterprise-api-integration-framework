@@ -1,6 +1,6 @@
 # Enterprise API Integration Framework
 
-A portfolio/reference implementation for integrating third-party HTTP APIs through a consistent
+A reference implementation for integrating third-party HTTP APIs through a consistent
 typed, observable, and failure-aware boundary.
 
 ```text
@@ -84,8 +84,6 @@ docker build .
 - [Failure Model](docs/FAILURE_MODEL.md)
 - [Threat Model](docs/THREAT_MODEL.md)
 - [Operations Runbook](docs/OPERATIONS.md)
-- [Portfolio Evidence](docs/PORTFOLIO_EVIDENCE.md)
-- [Principal Engineer Review](docs/PRINCIPAL_ENGINEER_REVIEW.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Architecture decisions](docs/adr/)
 
